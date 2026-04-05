@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
+import { LeadEditSheet } from "@/components/crm/lead-edit-sheet"
 import {
   Table,
   TableBody,
@@ -131,18 +132,11 @@ export default function CRMPage() {
                       </span>
                     </TableCell>
                     <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        {company.phone && (
-                          <button className="p-1 hover:bg-muted rounded">
-                            <Phone className="h-4 w-4" />
-                          </button>
-                        )}
-                        {company.email && (
-                          <button className="p-1 hover:bg-muted rounded">
-                            <Mail className="h-4 w-4" />
-                          </button>
-                        )}
-                      </div>
+                      <LeadEditSheet 
+                        lead={company} 
+                        trigger={<Button size="sm" variant="ghost">Éditer</Button>}
+                        onUpdate={() => window.location.reload()}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}

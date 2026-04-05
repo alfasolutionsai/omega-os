@@ -2,13 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import DashboardMetricCard, { TrendType } from "@/components/ui/dashboard-overview"
 import {
   Table,
   TableBody,
@@ -17,7 +11,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { TrendingUp, TrendingDown, DollarSign, PieChart } from "lucide-react"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { DollarSign, TrendingUp, TrendingDown, CreditCard } from "lucide-react"
 
 export default function FinancePage() {
   const [performance, setPerformance] = useState<any>(null)
@@ -39,47 +40,48 @@ export default function FinancePage() {
   const expensesTotal = Math.abs(performance?.["Total Dépenses"] || 0)
   const profit = revenue - expensesTotal
 
+  // Détermination des tendances (Simulées pour l'instant, ou basées sur une logique simple)
+  const revenueTrend: TrendType = revenue > 0 ? "up" : "neutral"
+  const expenseTrend: TrendType = expensesTotal > 0 ? "up" : "neutral" // Plus de dépenses = tendance "up" mais en rouge
+  const profitTrend: TrendType = profit > 0 ? "up" : "down"
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold tracking-tight">Finance & Forecasting</h1>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Revenus Encaissés</CardTitle>
-            <TrendingUp className="h-4 w-4 text-green-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{revenue.toLocaleString()} $</div>
-            <p className="text-xs text-muted-foreground">
-              {performance?.["Factures Payées"] || 0} factures réglées
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Dépenses Totales</CardTitle>
-            <TrendingDown className="h-4 w-4 text-red-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{expensesTotal.toLocaleString()} $</div>
-            <p className="text-xs text-muted-foreground">Coûts opérationnels</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Profit Net</CardTitle>
-            <DollarSign className="h-4 w-4 text-blue-500" />
-          </CardHeader>
-          <CardContent>
-            <div className={`text-2xl font-bold ${profit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-              {profit.toLocaleString()} $
-            </div>
-            <p className="text-xs text-muted-foreground">Marge actuelle</p>
-          </CardContent>
-        </Card>
+      {/* Metric Cards avec Tendances */}
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <DashboardMetricCard
+          title="Revenus Encaissés"
+          value={`${revenue.toLocaleString()} $`}
+          icon={DollarSign}
+          trendChange={`${performance?.["Factures Payées"] || 0} factures`}
+          trendType={revenueTrend}
+        />
+        <DashboardMetricCard
+          title="Dépenses Totales"
+          value={`${expensesTotal.toLocaleString()} $`}
+          icon={CreditCard}
+          trendChange="Coûts opérationnels"
+          trendType={expenseTrend}
+          className="[&_.trend-text]:text-red-500" // Hack pour forcer la couleur si besoin
+        />
+        <DashboardMetricCard
+          title="Profit Net"
+          value={`${profit.toLocaleString()} $`}
+          icon={TrendingUp}
+          trendChange={profit >= 0 ? "Marge positive" : "Marge négative"}
+          trendType={profitTrend}
+        />
+         <DashboardMetricCard
+          title="Factures en Attente"
+          value={`${performance?.["Factures en Attente"] || 0} $`}
+          icon={TrendingDown}
+          trendChange="À recouvrer"
+          trendType="neutral"
+        />
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
@@ -124,14 +126,6 @@ export default function FinancePage() {
               <div className="flex items-center justify-between text-sm">
                 <span>Lead Generated (2 deals)</span>
                 <span className="text-muted-foreground">64 800 $</span>
-              </div>
-              <div className="flex items-center justify-between text-sm">
-                <span>Discovery (0 deals)</span>
-                <span className="text-muted-foreground">0 $</span>
-              </div>
-              <div className="flex items-center justify-between text-sm">
-                <span>Proposal (0 deals)</span>
-                <span className="text-muted-foreground">0 $</span>
               </div>
             </div>
             <div className="mt-4 p-3 bg-muted/50 rounded-lg text-sm text-muted-foreground">
