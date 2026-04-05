@@ -4,7 +4,7 @@ import * as React from "react"
 import {
   TooltipProvider,
 } from "@/components/ui/tooltip"
-import { CommandPalette } from "@/components/command-palette"
+import CommandPalette from "@/components/command-palette"
 import { SessionNavBar } from "@/components/ui/sidebar"
 
 export default function RootLayout({
