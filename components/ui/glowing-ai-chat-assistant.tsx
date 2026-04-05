@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Paperclip, Link, Code, Mic, Send, Info, X, Database, Bot, AlertCircle } from 'lucide-react';
+import { withRateLimit } from '@/lib/rate-limiter';
 
 const GlowingAiChatAssistant = () => {
  const [message, setMessage] = useState('');
@@ -12,11 +13,20 @@ const GlowingAiChatAssistant = () => {
  setCharCount(value.length);
  };
 
- const handleSend = () => {
+ const handleSend = async () => {
  if (message.trim()) {
- console.log('Sending message:', message);
+ try {
+ // Wrap the sending logic in the rate limiter
+ await withRateLimit(async () => {
+ console.log('Sending message to AI:', message);
+ // TODO: Replace with actual API call to your AI gateway
+ // const response = await fetch('/api/chat', { ... })
+ });
  setMessage('');
  setCharCount(0);
+ } catch (error) {
+ console.error('Failed to send due to rate limit or error:', error);
+ }
  }
  };
 
