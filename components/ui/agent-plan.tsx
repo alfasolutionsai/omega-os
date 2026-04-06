@@ -315,7 +315,7 @@ export default function Plan() {
       opacity: 1, 
       y: 0,
       transition: { 
-        type: prefersReducedMotion ? "tween" : "spring", 
+        type: (prefersReducedMotion ? "tween" : "spring") as any, 
         stiffness: 500, 
         damping: 30,
         duration: prefersReducedMotion ? 0.2 : undefined
@@ -342,7 +342,7 @@ export default function Plan() {
         duration: 0.25, 
         staggerChildren: prefersReducedMotion ? 0 : 0.05,
         when: "beforeChildren",
-        ease: [0.2, 0.65, 0.3, 0.9] // Custom easing curve for Apple-like feel
+        ease: [0.2, 0.65, 0.3, 0.9] as any // Custom easing curve for Apple-like feel
       }
     },
     exit: {
@@ -351,7 +351,7 @@ export default function Plan() {
       overflow: "hidden",
       transition: { 
         duration: 0.2,
-        ease: [0.2, 0.65, 0.3, 0.9]
+        ease: [0.2, 0.65, 0.3, 0.9] as any
       }
     }
   };
@@ -365,7 +365,7 @@ export default function Plan() {
       opacity: 1, 
       x: 0,
       transition: { 
-        type: prefersReducedMotion ? "tween" : "spring", 
+        type: (prefersReducedMotion ? "tween" : "spring") as any, 
         stiffness: 500, 
         damping: 25,
         duration: prefersReducedMotion ? 0.2 : undefined
@@ -390,7 +390,7 @@ export default function Plan() {
       overflow: "visible",
       transition: { 
         duration: 0.25,
-        ease: [0.2, 0.65, 0.3, 0.9]
+        ease: [0.2, 0.65, 0.3, 0.9] as any
       }
     }
   };
@@ -402,7 +402,7 @@ export default function Plan() {
       scale: prefersReducedMotion ? 1 : [1, 1.08, 1],
       transition: { 
         duration: 0.35,
-        ease: [0.34, 1.56, 0.64, 1] // Springy custom easing for bounce effect
+        ease: [0.34, 1.56, 0.64, 1] as any as any // Springy custom easing for bounce effect
       }
     }
   };
@@ -417,7 +417,7 @@ export default function Plan() {
           y: 0,
           transition: {
             duration: 0.3,
-            ease: [0.2, 0.65, 0.3, 0.9]
+            ease: [0.2, 0.65, 0.3, 0.9] as any
           }
         }}
       >
@@ -461,7 +461,7 @@ export default function Plan() {
                             exit={{ opacity: 0, scale: 0.8, rotate: 10 }}
                             transition={{
                               duration: 0.2,
-                              ease: [0.2, 0.65, 0.3, 0.9]
+                              ease: [0.2, 0.65, 0.3, 0.9] as any
                             }}
                           >
                             {task.status === "completed" ? (
@@ -598,7 +598,7 @@ export default function Plan() {
                                           exit={{ opacity: 0, scale: 0.8, rotate: 10 }}
                                           transition={{
                                             duration: 0.2,
-                                            ease: [0.2, 0.65, 0.3, 0.9]
+                                            ease: [0.2, 0.65, 0.3, 0.9] as any
                                           }}
                                         >
                                           {subtask.status === "completed" ? (
